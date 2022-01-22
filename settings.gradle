@@ -1,0 +1,2 @@
+rootProject.name = "PiStock"
+include ':app'
