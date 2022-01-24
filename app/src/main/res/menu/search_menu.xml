@@ -9,7 +9,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         />
 
-
-
-
 </menu>

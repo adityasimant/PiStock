@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.pistock.api.ApiJavaMain;
-import com.example.pistock.model.MainImageModel;
+import com.example.pistock.model.ImageModel;
 import com.example.pistock.model.SearchModel;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private int page =1;
     private RecyclerView recyclerView;
-    private ArrayList<MainImageModel> list;
+    private ArrayList<ImageModel> list;
     private GridLayoutManager manager;
     private ImageAdapter adapter;
     private int pageSize = 30;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         list = new ArrayList<>();
          adapter = new ImageAdapter(this,list);
-         manager = new GridLayoutManager(this, 2);
+         manager = new GridLayoutManager(this, 3);
          recyclerView.setLayoutManager(manager);
          recyclerView.setHasFixedSize(true);
          recyclerView.setAdapter(adapter);
@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void getData() {
         isLoading = true;
-        ApiJavaMain.getApiInterface().getImages(page,30).enqueue(new Callback<List<MainImageModel>>() {
+        ApiJavaMain.getApiInterface().getImages(page,30).enqueue(new Callback<List<ImageModel>>() {
             @Override
-            public void onResponse(Call<List<MainImageModel>> call, Response<List<MainImageModel>> response) {
+            public void onResponse(Call<List<ImageModel>> call, Response<List<ImageModel>> response) {
                 if(response != null){
                     list.addAll(response.body());
                     adapter.notifyDataSetChanged();
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<List<MainImageModel>> call, Throwable t) {
+            public void onFailure(Call<List<ImageModel>> call, Throwable t) {
                 dialog.dismiss();
                 Toast.makeText(MainActivity.this,"Error : " + t.getMessage(),Toast.LENGTH_SHORT).show();
             }
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 dialog.show();
                 searchData(query);
-
                 return true;
             }
 
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
          @Override
          public void onFailure(Call<SearchModel> call, Throwable t) {
-
+             Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
          }
      });
 

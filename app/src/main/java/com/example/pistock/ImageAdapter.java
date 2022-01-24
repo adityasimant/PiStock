@@ -12,16 +12,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.pistock.model.MainImageModel;
+import com.example.pistock.model.ImageModel;
 
 import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHolder> {
 
     private Context context;
-    private ArrayList<MainImageModel>list;
+    private ArrayList<ImageModel>list;
 
-    public ImageAdapter(Context context, ArrayList<MainImageModel> list) {
+    public ImageAdapter(Context context, ArrayList<ImageModel> list) {
         this.context = context;
         this.list = list;
     }
@@ -37,11 +37,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull ImageAdapter.imageViewHolder holder, int position) {
-        Glide.with(context).load(list.get(position).getUrls()).into(holder.imageView);
+        Glide.with(context).load(list.get(position).getUrls().getRegular()).into(holder.imageView);
 
         holder.imageView.setOnClickListener(v -> {
             Intent intent = new Intent(context,FullImage.class);
-            intent.putExtra("Image", (Parcelable) list.get(position).getUrls());
+            intent.putExtra("Image",list.get(position).getUrls().getRegular());
             context.startActivity(intent);
         });
     }

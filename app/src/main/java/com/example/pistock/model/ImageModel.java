@@ -1,9 +1,9 @@
 package com.example.pistock.model;
 
-public class MainImageModel {
+public class ImageModel {
     private UrlModel urls;
 
-    public MainImageModel(UrlModel urls) {
+    public ImageModel(UrlModel urls) {
         this.urls = urls;
     }
 

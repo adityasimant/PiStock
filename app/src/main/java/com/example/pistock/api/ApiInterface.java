@@ -1,6 +1,6 @@
 package com.example.pistock.api;
 
-import com.example.pistock.model.MainImageModel;
+import com.example.pistock.model.ImageModel;
 import com.example.pistock.model.SearchModel;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public interface ApiInterface {
 
     @Headers("Authorization = ClientId" + key)
     @GET("/photos")
-    Call<List<MainImageModel>> getImages(
+    Call<List<ImageModel>> getImages(
             @Query("page") int page,
             @Query("PerPage") int PerPage
     );

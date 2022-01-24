@@ -2,16 +2,19 @@ package com.example.pistock.model;
 
 public class UrlModel {
 
-    private String inge ;
-   public UrlModel(String Url){
-       this.inge = Url;
-   }
-
-    public String getUrl() {
-        return inge;
+    public String getRegular() {
+        return regular;
     }
 
-    public void setUrl(String url) {
-        inge = url;
+    public void setRegular(String regular) {
+        this.regular = regular;
     }
+
+    public UrlModel(String regular) {
+        this.regular = regular;
+    }
+
+    private String regular ;
+
 }
+
