@@ -1,6 +1,8 @@
 package com.example.pistock;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.imageViewHol
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull ImageAdapter.imageViewHolder holder, int position) {
         Glide.with(context).load(list.get(position).getUrls()).into(holder.imageView);
+
+        holder.imageView.setOnClickListener(v -> {
+            Intent intent = new Intent(context,FullImage.class);
+            intent.putExtra("Image", (Parcelable) list.get(position).getUrls());
+            context.startActivity(intent);
+        });
     }
 
     @Override

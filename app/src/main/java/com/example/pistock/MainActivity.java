@@ -2,6 +2,7 @@ package com.example.pistock;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.pistock.api.ApiJavaMain;
 import com.example.pistock.model.MainImageModel;
+import com.example.pistock.model.SearchModel;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<MainImageModel>> call, Throwable t) {
                 dialog.dismiss();
-                Toast.makeText(MainActivity.this,"Error : " + t.getMessage(),Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this,"Error : " + t.getMessage(),Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -113,6 +115,41 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem search = menu.findItem(R.id.Search);
+        SearchView searchView = (SearchView) search.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                dialog.show();
+                searchData(query);
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return  true;
+    }
+
+    private void searchData(String query) {
+        dialog.dismiss();
+     ApiJavaMain.getApiInterface().SearchImages(query).enqueue(new Callback<SearchModel>() {
+         @Override
+         public void onResponse(Call<SearchModel> call, Response<SearchModel> response) {
+             list.clear();
+             list.addAll(response.body().getResults());
+             adapter.notifyDataSetChanged();
+         }
+
+         @Override
+         public void onFailure(Call<SearchModel> call, Throwable t) {
+
+         }
+     });
+
+
     }
 }
