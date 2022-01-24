@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.pistock.api.ApiJavaMain;
@@ -64,6 +62,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull @NotNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+                int visibleItem = manager.getChildCount();
+                int totalItem = manager.getItemCount();
+                int firstVisibleItemPosition = manager.findFirstVisibleItemPosition();
+
+                if (isLoading && !isLastPage){
+                    if ((visibleItem + firstVisibleItemPosition >= totalItem )
+                            &&  firstVisibleItemPosition >=0
+                            && totalItem >= pageSize){
+                        page++;
+                        getData();
+
+                    }
+                }
             }
         });
 
@@ -96,5 +107,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Error : " + t.getMessage(),Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem search = menu.findItem(R.id.Search);
+        return  true;
     }
 }
